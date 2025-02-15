@@ -15,6 +15,10 @@ const apiRoutes = require("./routes/api");
 app.use("/auth", authRoutes);
 app.use("/api", apiRoutes);
 
-// Start Server
-const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Start server only if not in test mode
+if (require.main === module) {
+  const PORT = process.env.PORT || 5001;
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
+// Export the app for testing
+module.exports = app;

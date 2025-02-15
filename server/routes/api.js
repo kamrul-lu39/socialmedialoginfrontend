@@ -1,9 +1,22 @@
 const express = require("express");
 const router = express.Router();
-let data = []; // Temporary mock database
+let data = []; // Mock database
 
-router.get("/", (req, res) => res.json(data));
+// GET request (Working fine)
+router.get("/", (req, res) => {
+  res.json(data);
+});
+
+// POST request (Debugging issue)
 router.post("/", (req, res) => {
+  console.log("Incoming POST request to /api/");
+  console.log("Request headers:", req.headers);
+  console.log("Request body:", req.body); // Log the request body
+
+  if (!req.body || !req.body.id || !req.body.name) {
+    return res.status(400).json({ error: "Missing fields in request" });
+  }
+
   const newItem = req.body;
   data.push(newItem);
   res.json(newItem);
